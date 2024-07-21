@@ -1,28 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { QrReader } from 'react-qr-reader';
+import React, { useState } from 'react';
+import { BrowserMultiFormatReader } from '@zxing/library';
+import { QRCode } from 'react-qrcode';
 
 const QrScanner = (props) => {
   const [data, setData] = useState('');
+  const [scanResult, setScanResult] = useState(null);
 
-  useEffect(() => {
-    console.info(data);
-    props.passData(data);
-  }, [data]);
+  const handleScan = (result) => {
+    if (result) {
+      setScanResult(result.getText());
+    }
+  };
+
+  const handleError = (error) => {
+    console.error(error);
+  };
 
   return (
     <>
-      <QrReader
-        onResult={(result, error) => {
-          if (result) {
-            setData(result?.text);
-          }
-
-          // if (error) {
-          //   console.info(error);
-          // }
-        }}
-        style={{ width: '100%' }}
+      <QRCode value={data} />
+      <BrowserMultiFormatReader
+        onScan={handleScan}
+        onError={handleError}
       />
+      <input
+        type="text"
+        value={data}
+        onChange={(e) => setData(e.target.value)}
+        placeholder="Enter text to generate QR code"
+      />
+      {scanResult && (
+        <p>Scanned result: {scanResult}</p>
+      )}
     </>
   );
 };
