@@ -1,5 +1,5 @@
 import '../../css/Role.css'
-import { LinkButton } from '../LinkButton';
+import LinkButton from '../LinkButton';
 import { Box, Button as Btn } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 

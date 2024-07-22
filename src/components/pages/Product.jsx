@@ -13,22 +13,14 @@ import dayjs from 'dayjs';
 import { useLocation, useNavigate } from 'react-router-dom';
 import abi from '../../utils/Identeefi.json';
 import { useEffect, useState } from 'react';
-import { ethers } from "ethers";
-
+import { ethers } from 'ethers';
 
 const getEthereumObject = () => window.ethereum;
 
-/*
- * This function returns the first linked account found.
- * If there is no account linked, it will return null.
- */
 const findMetaMaskAccount = async () => {
     try {
         const ethereum = getEthereumObject();
 
-        /*
-        * First make sure we have access to the Ethereum object.
-        */
         if (!ethereum) {
             console.error("Make sure you have Metamask!");
             return null;
@@ -51,26 +43,19 @@ const findMetaMaskAccount = async () => {
     }
 };
 
-
-
 const Product = () => {
     const [currentAccount, setCurrentAccount] = useState("");
-
     const [serialNumber, setSerialNumber] = useState("");
     const [productData, setProductData] = useState("");
-
     const [name, setName] = useState("P");
     const [brand, setBrand] = useState("");
     const [description, setDescription] = useState("");
     const [history, setHistory] = useState([]);
     const [isSold, setIsSold] = useState(false);
-    const [toUpdate, setToUpdate] = useState(false);
     const [image, setImage] = useState({
         file: [],
         filepreview: null
     });
-
-
 
     const CONTRACT_ADDRESS = '0x62081f016446585cCC507528cc785980296b4Ccd';
     const CONTRACT_ABI = abi.abi;
@@ -88,49 +73,41 @@ const Product = () => {
         });
 
         if (qrData) {
-            handleScan(qrData)
+            handleScan(qrData);
         }
 
     }, [qrData]);
-
 
     const getImage = async (imageName) => {
         setImage(prevState => ({
             ...prevState,
             filepreview: `http://localhost:5000/file/product/${imageName}`
-            })
-        )
-    }
+        }));
+    };
 
     const handleScan = async (qrData) => {
         const data = qrData.split(",");
         const contractAddress = data[0];
         setSerialNumber(data[1]);
 
-        console.log("contract address", contractAddress)
-        console.log("serial number", data[1])
+        console.log("contract address", contractAddress);
+        console.log("serial number", data[1]);
 
         if (contractAddress === CONTRACT_ADDRESS) {
-
             try {
-                const { ethereum } = window;
+                const ethereum = getEthereumObject();
 
                 if (ethereum) {
                     const provider = new ethers.providers.Web3Provider(ethereum);
                     const signer = provider.getSigner();
                     const productContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
 
-                    console.log("here")
+                    console.log("here");
 
                     const product = await productContract.getProduct(data[1].toString());
-                    
-
-                    // setProductData(product.toString())
-                    // setToUpdate(true);
 
                     console.log("Retrieved product...", product);
-                    setData(product.toString())
-
+                    setData(product.toString());
                 } else {
                     console.log("Ethereum object doesn't exist!");
                 }
@@ -140,18 +117,15 @@ const Product = () => {
         }
     };
 
-    
-
     const setData = (d) => {
         console.log("product data: ", d);
 
         const arr = d.split(",");
-        console.log("arr", arr)
+        console.log("arr", arr);
 
         setName(arr[1]);
         setBrand(arr[2]);
         setDescription(arr[3].replace(/;/g, ","));
-        // setImage(arr[4]);
         getImage(arr[4]);
 
         const hist = [];
@@ -169,21 +143,19 @@ const Product = () => {
 
             start += 5;
         }
-        console.log("hist", hist)
+        console.log("hist", hist);
         setHistory(hist);
-
-    }
+    };
 
     const handleBack = () => {
-        navigate(-2)
-    }
-
+        navigate(-2);
+    };
 
     const getHistory = () => {
         return history.map((item, index) => {
             const date = dayjs(item.timestamp * 1000).format('MM/DD/YYYY');
             const time = dayjs(item.timestamp * 1000).format('HH:mm a');
-            console.log("getting history")
+            console.log("getting history");
 
             return (
                 <TimelineItem key={index}>
@@ -201,8 +173,7 @@ const Product = () => {
                 </TimelineItem>
             );
         });
-    }
-
+    };
 
     return (
         <Box sx={{
@@ -226,14 +197,12 @@ const Product = () => {
                         textAlign: "center", marginTop: "3%"
                     }}
                 >
-
                     Your Product is Authentic!</Typography>
                 <Box
                     sx={{
                         textAlign: "center", marginBottom: "5%",
                     }}
                 >
-
                     <Typography
                         variant="h2"
                         sx={{
@@ -266,10 +235,7 @@ const Product = () => {
                                 }}
                             >
                                 {name}
-
-
                             </Avatar>
-
                         </Box>
                         <Box
                             sx={{
@@ -283,9 +249,7 @@ const Product = () => {
                                 }}
                             >
                                 {name}
-
                             </Typography>
-
                             <Typography
                                 variant="body2"
                                 sx={{
@@ -294,8 +258,6 @@ const Product = () => {
                             >
                                 Serial Number: {serialNumber}
                             </Typography>
-
-
                             <Typography
                                 variant="body2"
                                 sx={{
@@ -304,7 +266,6 @@ const Product = () => {
                             >
                                 Description: {description}
                             </Typography>
-
                             <Typography
                                 variant="body2"
                                 sx={{
@@ -313,9 +274,7 @@ const Product = () => {
                             >
                                 Brand: {brand}
                             </Typography>
-
                         </Box>
-
                     </Box>
 
                     <Timeline
@@ -339,10 +298,6 @@ const Product = () => {
                         </TimelineItem>
                     </Timeline>
 
-
-
-
-
                     <Box
                         sx={{
                             width: "100%",
@@ -350,8 +305,6 @@ const Product = () => {
                             justifyContent: "center",
                         }}
                     >
-
-
                         <Button
                             onClick={handleBack}
                             sx={{
@@ -360,15 +313,11 @@ const Product = () => {
                         >
                             Back
                         </Button>
-
                     </Box>
-
-
-
                 </Box>
             </Paper>
         </Box>
-    )
+    );
 }
 
 export default Product;
