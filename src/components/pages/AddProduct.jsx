@@ -4,7 +4,7 @@ import { TextField, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { ethers } from "ethers";
 import axios from 'axios';
-import abi from '../../utils/Identeefi.json';
+import abi from '../../utils/dummy.json';
 import {QRCode} from 'react-qrcode';
 import dayjs from 'dayjs';
 import useAuth from '../../hooks/useAuth';
@@ -250,7 +250,7 @@ const AddProduct = () => {
         existingSerialNumbers.push(serialNumber);
          
         // checking for duplicated serial number
-        const duplicates = existingSerialNumbers.filter((item, index) => existingSerialNumbers.indexOf(item) != index)
+        const duplicates = existingSerialNumbers.filter((item, index) => existingSerialNumbers.indexOf(item) !== index)
         console.log("duplicates: ", duplicates)
         const isDuplicate = duplicates.length >= 1;
 

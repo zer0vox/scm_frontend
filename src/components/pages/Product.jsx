@@ -11,9 +11,9 @@ import TimelineOppositeContent, {
 } from '@mui/lab/TimelineOppositeContent';
 import dayjs from 'dayjs';
 import { useLocation, useNavigate } from 'react-router-dom';
-import abi from '../../utils/Identeefi.json';
+import abi from '../../utils/dummy.json';
 import { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
+import { ethers } from 'ethers'; // Correct import
 
 const getEthereumObject = () => window.ethereum;
 
@@ -98,7 +98,7 @@ const Product = () => {
                 const ethereum = getEthereumObject();
 
                 if (ethereum) {
-                    const provider = new ethers.providers.Web3Provider(ethereum);
+                    const provider = new ethers.providers.Web3Provider(window.ethereum);
                     const signer = provider.getSigner();
                     const productContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
 

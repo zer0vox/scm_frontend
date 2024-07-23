@@ -32,11 +32,11 @@ const Companies = () => {
             sx={{
               color: "#7D8589",
               fontSize: "16px",
-              fontWeight: "bold",
+              fontWeight: "normal", // Change the font weight to "normal"
               mt: 2,
             }}
           >
-            More than 45,000 trust Identeefi
+            More than 45,000 trust Our Supply Chain management App 
           </Typography>
         </CustomBox>
 
@@ -47,7 +47,7 @@ const Companies = () => {
             sx={{
               color: "#7D8589",
               fontSize: "16px",
-              fontWeight: "bold",
+              fontWeight: "normal", // Change the font weight to "normal"
               mt: 2,
             }}
           >

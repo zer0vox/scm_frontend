@@ -82,7 +82,7 @@ const Guide = () => {
         </Typography>
       </CustomBox>
 
-      {/* <GuidesBox>
+      { <GuidesBox>
         <GuideBox>
           <img src={buyIcon} alt="buyIcon" />
           <Typography
@@ -175,7 +175,7 @@ const Guide = () => {
             <ArrowRightAltIcon style={{ color: "#0689FF" }} />
           </Box>
         </GuideBox>
-      </GuidesBox> */}
+      </GuidesBox> }
 
       <CustomButton
         backgroundColor="#0F1B4C"
